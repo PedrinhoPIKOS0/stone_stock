@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock - Pedidos</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pedCad.css') }}">
+    <style>
+        /* Adicione algum estilo básico para a tabela e barra de pesquisa */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #2C7A2C; /* Verde para o fundo dos cabeçalhos */
+            color: white; /* Cor do texto dos cabeçalhos */
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        td {
+            background-color: #fff;
+        }
+        #searchInput {
+            margin-bottom: 12px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="table-container">
+            <h2>Pedidos Cadastrados</h2>
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Pesquisar por número do pedido, CPF ou código do produto">
+
+            <table id="pedidosTable">
+                <thead>
+                    <tr>
+                        <th>Nº do Pedido</th>
+                        <th>Cidade Destino</th>
+                        <th>CPF do Cliente</th>
+                        <th>Código do Produto</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in listaVendas %}
+                    <tr>
+                        <td>{{ pedido[0] }}</td>
+                        <td>{{ pedido[1] }}</td>
+                        <td>{{ pedido[2] }}</td>
+                        <td>{{ pedido[3] }}</td>
+                        <td>{{ pedido[4] }}</td>
+                        <td>
+                            <a href="/editar_pedido/{{ pedido[0] }}">Editar</a>
+                            <a href="/excluir_pedido/{{ pedido[0] }}" onclick="return confirm('Tem certeza que deseja excluir este pedido?');">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById('pedidosTable');
+            tr = table.getElementsByTagName('tr');
+
+            // Percorre todas as linhas da tabela
+            for (i = 1; i < tr.length; i++) { // Começa em 1 para pular o cabeçalho
+                tr[i].style.display = 'none'; // Esconde todas as linhas inicialmente
+                td = tr[i].getElementsByTagName('td');
+                // Verifica as colunas específicas para o filtro
+                if (td.length > 0) {
+                    var numPedido = td[0].textContent || td[0].innerText;
+                    var cpfCliente = td[2].textContent || td[2].innerText;
+                    var codProduto = td[3].textContent || td[3].innerText;
+
+                    if (numPedido.toUpperCase().indexOf(filter) > -1 || 
+                        cpfCliente.toUpperCase().indexOf(filter) > -1 || 
+                        codProduto.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ''; // Mostra a linha se corresponder
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

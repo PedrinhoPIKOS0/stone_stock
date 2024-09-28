@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deslogar - Stone Stock</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static', filename='inicio.css')}}">
+</head>
+
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header class="header">
+        <div class="logo-container">
+            <span class="site-name">stone stock</span>
+            <img src="{{url_for('static', filename='logo.png')}}" alt="Logo" class="logo">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="image-container">
+            <img src="{{url_for('static', filename='stone-Photoroom.png')}}" alt="Imagem de Stone" class="image">
+        </div>
+        <div class="logout-message">
+            <h1>Você tem certeza que deseja deslogar?</h1>
+            <button class="btn" onclick="window.location.href='/'">Sim, deslogar</button>
+        </div>
+    </div>
+</body>
+
+</html>

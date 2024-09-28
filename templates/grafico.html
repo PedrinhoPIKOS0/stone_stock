@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos de Maquininhas</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='grafico.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilo básico para a tabela e gráficos */
+        .chart-section {
+            margin-bottom: 40px;
+        }
+        canvas {
+            max-width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #2C7A2C; /* Verde para o fundo dos cabeçalhos */
+            color: white; /* Cor do texto dos cabeçalhos */
+        }
+        td {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <span class="site-name">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+       
+
+        <section class="chart-section">
+            <h2>Pedidos por Cidade</h2>
+            <canvas id="cidadesChart"></canvas>
+
+           <button class="btn"  onclick="window.location.href='/quantidadeCidade'">Estatísticas</button>
+        </section>
+
+        <section class="chart-section">
+            <h2> Relatórios de Maquininhas</h2>
+            <canvas id="modelosChart"></canvas>
+        </section>
+    </main>
+
+    <script>
+        // Dados para o gráfico de cidades
+        const cidadesLabels = {{ cidades_labels|tojson }};
+        const cidadesQuantidade = {{ cidades_quantidade|tojson }};
+        
+        const cidadesCtx = document.getElementById('cidadesChart').getContext('2d');
+        const cidadesChart = new Chart(cidadesCtx, {
+            type: 'bar',
+            data: {
+                labels: cidadesLabels,
+                datasets: [{
+                    label: 'Quantidade de Maquininhas',
+                    data: cidadesQuantidade,
+                    backgroundColor: '#2C7A2C', // Cor das colunas
+                    borderColor: '#2C7A2C',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: '#ffffff',
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: (value) => value,
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : '';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Dados para o gráfico de modelos
+        const modelosLabels = {{ modelos_labels|tojson }};
+        const modelosQuantidade = {{ modelos_quantidade|tojson }};
+        
+        const modelosCtx = document.getElementById('modelosChart').getContext('2d');
+        const modelosChart = new Chart(modelosCtx, {
+            type: 'pie',
+            data: {
+                labels: modelosLabels,
+                datasets: [{
+                    label: 'Quantidade de Modelos',
+                    data: modelosQuantidade,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: '#000000',
+                        formatter: (value) => value,
+                        font: {
+                            weight: 'bold'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + Math.round(tooltipItem.raw); // Arredonda os números no tooltip
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

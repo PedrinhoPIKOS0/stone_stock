@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock - Usuário</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static', filename='usuario.css')}}">
+</head>
+
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header class="header">
+        <div class="logo-container">
+            <span class="site-name">stone stock</span>
+            <img src="{{url_for('static', filename='logo.png')}}" alt="Logo" class="logo">
+        </div>
+        <nav class="nav">
+            <!-- Nav content (if any) -->
+        </nav>
+    </header>
+
+    <div class="container">
+        <img src="{{url_for('static', filename='Stone.png')}}" alt="Maquininha Stone" class="feature-image">
+        
+        <div class="buttons-container">
+            <h1>Bem-vindo, Usuário!</h1>
+            <div class="logout-container">
+                <button class="logout-btn" onclick="window.location.href='/logout'">Deslogar</button>
+            </div>
+            <div class="back-home-container">
+                <button class="back-home-btn" onclick="window.location.href='/inicio'">Voltar para a Tela Inicial</button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>

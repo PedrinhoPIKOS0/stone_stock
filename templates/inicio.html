@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{url_for('static', filename='inicio.css')}}">
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header class="header">
+        <div class="logo-container">
+            <span class="site-name">stone stock</span>
+            <img src="{{url_for('static', filename='logo.png')}}" alt="Logo" class="logo">
+        </div>
+        <nav class="nav">
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="image-container">
+            <img src="{{url_for('static', filename='stone-Photoroom.png')}}" alt="imagem1" class="image">
+        </div>
+        <div class="buttons">
+            <button class="btn" onclick="window.location.href='/cliente'">Cadastrar cliente</button>
+            <button class="btn" onclick="window.location.href='/produto'">Cadastrar produto</button>
+            <button class="btn" onclick="window.location.href='/grafico'">Relatórios</button>
+            <button class="btn" onclick="window.location.href='/pedido'">Pedidos</button>
+            <button class="btn" onclick="window.location.href='/vendas'">Vendas</button>
+
+
+        </div>
+    </div>
+</body>
+
+</html>

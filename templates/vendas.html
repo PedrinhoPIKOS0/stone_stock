@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock - Vendas</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendas.css') }}">
+    <style>
+        /* Estilo básico para a tabela e barra de pesquisa */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #2C7A2C; /* Verde para o fundo dos cabeçalhos */
+            color: white; /* Cor do texto dos cabeçalhos */
+        }
+        td {
+            background-color: #fff;
+        }
+        #searchInput {
+            margin-bottom: 12px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .container {
+            padding: 20px;
+        }
+
+        /* Estilo para o link "Gráficos" */
+        .graficos-link {
+            display: block;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #2C7A2C;  /* Verde escuro */
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #2C7A2C;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .graficos-link:hover {
+            background-color: #2C7A2C;
+            color: white;
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+            
+        </nav>
+    </header>
+    <div class="container">
+        <div class="table-container">
+            
+
+            <h2>Tabela de Vendas</h2>
+            
+
+            <table id="vendasTable">
+                <thead>
+                    <tr>
+                        <th>Nº do Pedido</th>
+                        <th>Cidade Destino</th>
+                        <th>CPF do Cliente</th>
+                        <th>Código do Produto</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venda in listaVendas %}
+                    <tr>
+                        <td>{{ venda[0] }}</td> <!-- Nº do Pedido -->
+                        <td>{{ venda[1] }}</td> <!-- Cidade Destino -->
+                        <td>{{ venda[2] }}</td> <!-- CPF do Cliente -->
+                        <td>{{ venda[3] }}</td> <!-- Código do Produto -->
+                        <td>{{ venda[4] }}</td> <!-- Quantidade -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+
+</body>
+</html>

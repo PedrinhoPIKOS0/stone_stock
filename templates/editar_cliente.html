@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href={{ url_for('static', filename="editar.css") }}>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src={{ url_for('static', filename="logo.png") }} alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>Editar Cliente</h2>
+        <form action="/atualizar_cliente/{{ cliente[0] }}" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" value="{{ cliente[1] }}" required>
+            
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" value="{{ cliente[0] }}" required>
+            
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade" value="{{ cliente[2] }}" required>
+            
+            <button type="submit">Atualizar Cliente</button>
+        </form>
+    </div>
+</body>
+</html>

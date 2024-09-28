@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='produto.css') }}">
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <h2>Cadastrar Produto</h2>
+            <form action="/add_produto" method="post" id="product-form">
+                <label for="code">Código do Produto:</label>
+                <input type="text" id="code" name="cod_produto" required>
+                <label for="name">Nome do Produto:</label>
+                <input type="text" id="name" name="nomeCl" required>
+                <label for="model">Modelo:</label>
+                <select id="model" name="modelo" required>
+                    <option value="">Selecione um modelo</option>
+                    <option value="T1">T1</option>
+                    <option value="T1 CHIP">T1 CHIP</option>
+                    <option value="T2+">T2+</option>
+                    <option value="T3">T3</option>
+                    <option value="T3 SMART">T3 SMART</option>
+                </select>
+                <label for="quantity">Quantidade:</label>
+                <input type="number" id="quantity" name="qtdd" required>
+                <button type="submit">Enviar</button>
+            </form>
+            <a href="/prodCad" class="link-cadastrados">Produtos Cadastrados</a>
+        </div>
+    </div>
+</body>
+</html>

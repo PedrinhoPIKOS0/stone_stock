@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock - Vendas</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendas.css') }}">
+    <style>
+        /* Estilo básico para a tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #2C7A2C; /* Verde para o fundo dos cabeçalhos */
+            color: white; /* Cor do texto dos cabeçalhos */
+        }
+        td {
+            background-color: #fff;
+        }
+        .container {
+            padding: 20px;
+        }
+
+        /* Estilo para o link "Gráficos" */
+        .graficos-link {
+            display: block;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #2C7A2C;  /* Verde escuro */
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid #2C7A2C;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .graficos-link:hover {
+            background-color: #2C7A2C;
+            color: white;
+        }
+
+        /* Estilo para alinhar todas as tabelas horizontalmente */
+        .horizontal-tables {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .table-container {
+            flex: 1;
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+             <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="horizontal-tables">
+            <div class="table-container">
+                <h2>Estoque</h2>
+                <table id="produtosTable">
+                    <thead>
+                        <tr>
+                            <th>Modelo</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for produto in listaProdutos %}
+                        <tr>
+                            <td>{{ produto[2] }}</td>
+                            <td>{{ produto[3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <h2>Saídas de estoque</h2>                
+                <table id="vendasTable">
+                    <thead>
+                        <tr>
+                            <th>Cidade</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vendasBody">
+                        <!-- As linhas serão geradas por JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-container">
+                <h2>Maquininhas Totais</h2>
+                <table class="horizontal-table">
+                    <tbody>
+                        <tr>
+                            <td><span>Total em Estoque:</span></td>
+                            <td><span id="totalEstoque"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span>Total de Saída:</span></td>
+                            <td><span id="totalSaida"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Dados vindos do servidor
+        const listaVendas = {{ listaVendas|tojson }};
+        const listaProdutos = {{ listaProdutos|tojson }};
+
+        // Objeto para armazenar as somas por cidade
+        const cidadeQuantidades = {};
+
+        // Itera sobre a lista de vendas e acumula as quantidades por cidade
+        let totalSaida = 0;
+        listaVendas.forEach(pedido => {
+            const cidade = pedido[1];
+            const quantidade = parseInt(pedido[4]);
+            totalSaida += quantidade;
+            if (cidadeQuantidades[cidade]) {
+                cidadeQuantidades[cidade] += quantidade;
+            } else {
+                cidadeQuantidades[cidade] = quantidade;
+            }
+        });
+
+        // Referência ao corpo da tabela de vendas
+        const vendasBody = document.getElementById('vendasBody');
+
+        // Cria as linhas da tabela de vendas
+        for (const cidade in cidadeQuantidades) {
+            const row = document.createElement('tr');
+            const cidadeCell = document.createElement('td');
+            const quantidadeCell = document.createElement('td');
+
+            cidadeCell.textContent = cidade;
+            quantidadeCell.textContent = cidadeQuantidades[cidade];
+
+            row.appendChild(cidadeCell);
+            row.appendChild(quantidadeCell);
+
+            vendasBody.appendChild(row);
+        }
+
+        // Calcula o total em estoque
+        let totalEstoque = 0;
+        listaProdutos.forEach(produto => {
+            totalEstoque += parseInt(produto[3]);
+        });
+
+        // Atualiza os valores na tabela horizontal
+        document.getElementById('totalEstoque').textContent = totalEstoque;
+        document.getElementById('totalSaida').textContent = totalSaida;
+    </script>
+</body>
+</html>

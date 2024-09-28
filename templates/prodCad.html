@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos Cadastrados</title><link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='prodCad.css') }}">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #2C7A2C; 
+            color: white; 
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        td {
+            background-color: #fff;
+        }
+        #searchInput {
+            margin-bottom: 12px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+                
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="table-container">
+            <h2>Produtos Cadastrados</h2>
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Pesquisar por Código, Nome ou Modelo">
+
+            <table id="produtosTable">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Modelo</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in listaProdutos %}
+                    <tr>
+                        <td>{{ produto[0] }}</td>
+                        <td>{{ produto[1] }}</td>
+                        <td>{{ produto[2] }}</td>
+                        <td>{{ produto[3] }}</td>
+                        <td>
+                            <a href="/editar_produto/{{ produto[0] }}">Editar</a> 
+                            <a href="/excluir_produto/{{ produto[0] }}" onclick="return confirm('Tem certeza que deseja excluir este produto?');">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            table = document.getElementById('produtosTable');
+            tr = table.getElementsByTagName('tr');
+
+            // Percorre todas as linhas da tabela
+            for (i = 1; i < tr.length; i++) { // Começa em 1 para pular o cabeçalho
+                tr[i].style.display = 'none'; // Esconde todas as linhas inicialmente
+                td = tr[i].getElementsByTagName('td');
+                for (j = 0; j < td.length - 1; j++) { // -1 para pular a coluna de ações
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = ''; // Mostra a linha se corresponder
+                            break; // Para de verificar outras colunas
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

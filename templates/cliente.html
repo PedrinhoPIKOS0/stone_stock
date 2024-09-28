@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Stock</title>
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cliente.css') }}">
+</head>
+
+<body style="background-image: url('{{ url_for('static', filename='Stone-01.jpg') }}'); 
+             background-size: cover; 
+             background-position: center; 
+             background-repeat: no-repeat; 
+             height: 100vh;">
+    <header>
+        <div class="logo-container">
+            <span class="logo-text">stone stock</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <nav>
+            <a href="/cliente" class="nav-link">Cadastrar cliente</a>
+            <a href="/produto" class="nav-link">Cadastrar produto</a>
+            <a href="/vendas" class="nav-link">Vendas</a>
+            <a href="/pedido" class="nav-link">Pedidos</a>
+            <a href="/grafico" class="nav-link">Relatórios</a>
+            <a class="logout-btn" onclick="window.location.href='/perf_usuario'">
+                <img src="{{url_for('static', filename='perfil.png')}}" alt="Logout" class="-usericon">
+            </a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <h2>Cadastrar Cliente</h2>
+            <form action="/add_cliente" method="post" id="client-form">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="nome" required>
+                <label for="cpf">CPF:</label>
+                <input type="text" id="cpf" name="cpf" required>
+                <label for="city">Cidade:</label>
+                <select id="city" name="cidade" required>
+                    <option value="">Selecione uma cidade</option>
+                    <option value="Recife-PE">Recife-PE</option>
+                    <option value="Olinda-PE">Olinda-PE</option>
+                    <option value="Jaboatão dos Guararapes-PE">Jaboatão dos Guararapes-PE</option>
+                    <option value="Caruaru-PE">Caruaru-PE</option>
+                    <option value="Petrolina-PE">Petrolina-PE</option>
+                    <option value="Garanhuns-PE">Garanhuns-PE</option>
+                    <option value="Igarassu-PE">Igarassu-PE</option>
+                    <option value="Paulista-PE">Paulista-PE</option>
+                    <option value="São Lourenço da Mata-PE">São Lourenço da Mata-PE</option>
+                    <option value="Arcoverde-PE">Arcoverde-PE</option>
+                    <!-- Adicione mais cidades conforme necessário -->
+                </select>
+                <button type="submit">Enviar</button>
+            </form>
+            <a href="/cadastro" class="link-cadastrados">Clientes Cadastrados</a>
+        </div>
+    </div>
+</body>
+
+</html>
